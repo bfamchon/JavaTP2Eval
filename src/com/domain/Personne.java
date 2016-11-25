@@ -41,7 +41,7 @@ public class Personne implements IDomainObject {
         this.obs = new ArrayList<>();
     }
 
-    public Integer getId() {
+    public Integer getId() throws SQLException {
         return id;
     }
 
@@ -63,11 +63,11 @@ public class Personne implements IDomainObject {
         notifier();
     }
 
-    public String getTel() {
+    public String getTel() throws SQLException {
         return tel;
     }
 
-    public String getEvaluation() {
+    public String getEvaluation() throws SQLException {
         return evaluation;
     }
 
@@ -76,7 +76,7 @@ public class Personne implements IDomainObject {
         notifier();
     }
 
-    public Personne getPere() {
+    public Personne getPere() throws SQLException {
         return pere;
     }
 
@@ -85,11 +85,11 @@ public class Personne implements IDomainObject {
         notifier();
     }
 
-    public List<Personne> getFils() {
+    public List<Personne> getFils() throws SQLException {
         return fils;
     }
 
-    public void addFils(Personne fils) {
+    public void addFils(Personne fils) throws SQLException {
         this.fils.add(fils);
         notifier();
     }

@@ -13,61 +13,64 @@ import java.sql.SQLException;
 public class Extraction {
     /**
      * Permet d'extraire une personne et ses fils/pere d'une requete venant de PersonneMapper
+     *
      * @param rs une ligne résultante de la requete
      * @param id l'id de la personne demandee en requete
      */
     public static Personne extrairePersonne(ResultSet rs, Integer id) throws SQLException {
         Personne personne = new Personne();
-        Personne pere = new Personne();
-        int idPers, idFils;
-        String nomPere, nomFils;
-        String telPere, telFils;
-        String prenomPere, prenomFils;
-        String evalPere, evalFils;
+        int idPers;
         do {
-            Personne hierarchie = new Personne();
+            Personne hierarchie;
             idPers = rs.getInt(1);
+            // On fait se test pour initialiser la personne une fois
+            if (personne.getId() == null) {
+                personne = remplirPersonne(rs,idPers != id);
+            }
+            // On rempli les fils de la personne
             if (idPers == id) {
-                idFils = rs.getInt(6);
-                nomFils = rs.getString(7);
-                prenomFils = rs.getString(8);
-                telFils = rs.getString(9);
-                evalFils = rs.getString(10);
-
-                hierarchie.setId(idFils);
-                hierarchie.setNom(nomFils);
-                hierarchie.setPrenom(prenomFils);
-                hierarchie.setTel(telFils);
-                hierarchie.setEvaluation(evalFils);
+                hierarchie = remplirPersonne(rs,true);
                 personne.addFils(hierarchie);
             } else {
-                // On ne passera ici qu'une fois, une personne peut être fils d'un seul père
-                nomPere = rs.getString(2);
-                prenomPere = rs.getString(3);
-                telPere = rs.getString(4);
-                evalPere = rs.getString(5);
-                pere.setId(idPers);
-                pere.setNom(nomPere);
-                pere.setPrenom(prenomPere);
-                pere.setTel(telPere);
-                pere.setEvaluation(evalPere);
-
-                idFils = rs.getInt(6);
-                nomFils = rs.getString(7);
-                prenomFils = rs.getString(8);
-                telFils = rs.getString(9);
-                evalFils = rs.getString(10);
-
-                personne.setId(idFils);
-                personne.setNom(nomFils);
-                personne.setNom(prenomFils);
-                personne.setTel(telFils);
-                personne.setEvaluation(evalFils);
-                personne.setPere(pere);
+                // On passe ici 1 fois, pour remplir le père
+                hierarchie = remplirPersonne(rs,false);
+                personne.setPere(hierarchie);
             }
-        } while(rs.next());
+        } while (rs.next());
+        return personne;
+    }
 
+    private static Personne remplirPersonne(ResultSet rs, Boolean remplirFils) throws SQLException {
+        Personne personne = new Personne();
+        Integer idPers;
+        String nomPers;
+        String telPers;
+        String prenomPers;
+        String evalPers;
+        if ( remplirFils ) {
+            idPers = rs.getInt(6);
+            nomPers = rs.getString(7);
+            prenomPers = rs.getString(8);
+            telPers = rs.getString(9);
+            evalPers = rs.getString(10);
+
+            personne.setId(idPers);
+            personne.setNom(nomPers);
+            personne.setPrenom(prenomPers);
+            personne.setTel(telPers);
+            personne.setEvaluation(evalPers);
+        } else {
+            idPers = rs.getInt(1);
+            nomPers = rs.getString(2);
+            telPers = rs.getString(4);
+            prenomPers = rs.getString(3);
+            evalPers = rs.getString(5);
+            personne.setId(idPers);
+            personne.setNom(nomPers);
+            personne.setPrenom(prenomPers);
+            personne.setTel(telPers);
+            personne.setEvaluation(evalPers);
+        }
         return personne;
     }
 }
-

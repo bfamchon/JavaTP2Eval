@@ -10,8 +10,15 @@ public class Main {
 	// write your code here
         Personne p = new ProxyPersonne();
         try {
-            System.out.println("Prénom: " + p.getPrenom() + " Nom: " + p.getNom());
-            UnitOfWork.getInstance().commit();
+            System.out.println("Id: " + p.getId() + " Prénom: " + p.getPrenom() + " Nom: " + p.getNom());
+            if (p.getPere() != null) {
+                System.out.println("Père: " + p.getPere().getId() + " " + p.getPere().getPrenom() + " Nom: " + p.getPere().getNom());
+            }
+            System.out.println("Évaluation: " + p.getEvaluation());
+            for (Personne fils: p.getFils()) {
+                System.out.println("Fils: " + fils.getId() + " " + fils.getPrenom() + " " + fils.getNom());
+            }
+//            UnitOfWork.getInstance().commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }

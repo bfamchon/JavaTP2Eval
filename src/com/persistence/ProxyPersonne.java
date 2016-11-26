@@ -20,7 +20,7 @@ public class ProxyPersonne extends Personne{
         // Initialiser l'objet proxyfié avec la BD
         PersonneMapper PM = new PersonneMapper();
         try {
-            inst = PM.findById(0);
+            inst = PM.findById(2);
         } catch (SQLException e) {
             e.printStackTrace();
         }

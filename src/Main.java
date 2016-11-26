@@ -12,11 +12,13 @@ public class Main {
         try {
             System.out.println("Id: " + p.getId() + " Prénom: " + p.getPrenom() + " Nom: " + p.getNom());
             if (p.getPere() != null) {
-                System.out.println("Père: " + p.getPere().getId() + " " + p.getPere().getPrenom() + " Nom: " + p.getPere().getNom());
+                System.out.println("Père: " + p.getPere().getId() + " " + p.getPere().getPrenom() + " " +p.getPere().getNom());
             }
             System.out.println("Évaluation: " + p.getEvaluation());
-            for (Personne fils: p.getFils()) {
-                System.out.println("Fils: " + fils.getId() + " " + fils.getPrenom() + " " + fils.getNom());
+            if (p.getFils() != null) {
+                for (Personne fils : p.getFils()) {
+                    System.out.println("Fils: " + fils.getId() + " " + fils.getPrenom() + " " + fils.getNom());
+                }
             }
 //            UnitOfWork.getInstance().commit();
         } catch (SQLException e) {

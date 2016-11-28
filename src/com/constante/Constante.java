@@ -10,4 +10,7 @@ public class Constante {
 
 	public static final String CONNEXION_CONFIG_BAPTISTE = "jdbc:mysql://localhost/personnels?" + "user=root&password=rootpassdb";
 	public static final String CONNEXION_CONFIG_LAURENT = "jdbc:mysql://localhost/personnels?" + "user=root";
+	
+	public final static String IDENTIFIANT_PERSONNE = "IDPERS";
+	public static final String MESSAGE_ERREUR = "MSGERROR";
 }

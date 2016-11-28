@@ -7,6 +7,7 @@ import com.persistence.uow.UnitOfWork;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.List;
 
 import static com.persistence.Extraction.extrairePersonne;
@@ -28,7 +29,7 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
             "FROM personne p " +
             "LEFT JOIN personne p1 ON p1.idPere = p.id " +
             "LEFT JOIN personne p2 ON p2.id = p.idPere " +
-            "WHERE p.id=?; ";
+            "WHERE p.id=?";
 
     private static final String SELECT_FROM_PERSONNE = "SELECT " +
             "p.id, p.nom, p.prenom, p.telephone, p.evaluation, " +
@@ -38,9 +39,12 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
             "LEFT JOIN personne p1 ON p1.idPere = p.id " +
             "LEFT JOIN personne p2 ON p2.id = p.idPere ";
 
+    private static final String UPDATE_PERSONNE_SET_INFOS_WHERE_ID = "UPDATE personne " +
+            "SET nom = ?, prenom = ?, telephone = ?, evaluation = ?, idPere = ? " +
+            "WHERE id = ?";
+
+    private static final String INSERT_INTO_PERSONNE_VALUES = "INSERT INTO personne VALUES(?,?,?,?,?,?)";
     // TODO Autres requetes
-    private static final String UPDATE_PERSONNE_SET_INFOS_WHERE_ID = "UPDATE personne";
-    private static final String INSERT_INTO_PERSONNE_VALUES = "INSERT INTO personne VALUES(?,?,?,?,?)";
     private static final String DELETE_FROM_PERSONNE_WHERE_ID = "DELETE FROM personne WHERE id=?";
     private static final String SEARCH_MAX_ID = "SELECT MAX(id) as maxid FROM personne";
 
@@ -52,18 +56,47 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
     }
 
     @Override
-    public void insert(Personne b) throws SQLException {
-
+    public void insert(Personne p) throws SQLException {
+        if ( p != null ) {
+            String req = INSERT_INTO_PERSONNE_VALUES;
+            PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
+            ps.setInt(1,p.getId());
+            ps.setString(2,p.getNom());
+            ps.setString(3,p.getPrenom());
+            ps.setString(4,p.getTel());
+            ps.setString(5,p.getEvaluation());
+            if (p.getPere() != null) {
+                ps.setInt(6, p.getPere().getId());
+            } else {
+                ps.setNull(6, Types.INTEGER);
+            }
+            ps.executeUpdate();
+        }
     }
 
     @Override
-    public void delete(Personne b) throws SQLException {
+    public void delete(Personne p) throws SQLException {
 
     }
 
-    public void update(Personne p) {
+    public void update(Personne p) throws SQLException {
         // faire des accès en base: alter table blablabla
-        System.out.println("PM.update(): MÀJ personne dans la base de donnees.");
+        if ( p != null ) {
+            String req = UPDATE_PERSONNE_SET_INFOS_WHERE_ID;
+            PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
+            ps.setString(1,p.getNom());
+            ps.setString(2,p.getPrenom());
+            ps.setString(3,p.getTel());
+            ps.setString(4,p.getEvaluation());
+            if (p.getPere() != null) {
+                ps.setInt(5, p.getPere().getId());
+            } else {
+                ps.setNull(5, Types.INTEGER);
+            }
+            ps.setInt(6,p.getId());
+            ps.executeUpdate();
+            System.out.println("PM.update(): MÀJ personne dans la base de donnees.");
+        }
     }
 
     @Override
@@ -75,13 +108,13 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
     public Personne findById(Integer id) throws SQLException {
         // faire des accès en base: SELECT ... WHERE id = id
         Personne p = new Personne();
-        p.add(UnitOfWork.getInstance());
         PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(SELECT_FROM_PERSONNE_WHERE_ID);
         ps.setInt(1,id);
         ResultSet rs = ps.executeQuery();
 //		Si on a au moins une ligne en retour
         if(rs.next()) {
             p = extrairePersonne(rs);
+            p.add(UnitOfWork.getInstance());
             return p;
         }
         return null;

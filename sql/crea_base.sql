@@ -2,7 +2,7 @@
 -- Structure de la table `personne`
 --
 
-CREATE TABLE IF NOT EXISTS `personne` (
+CREATE TABLE IF NOT EXISTS `personne`(
   `id` int(11) NOT NULL,
   `nom` varchar(15) DEFAULT NULL,
   `prenom` varchar(15) DEFAULT NULL,

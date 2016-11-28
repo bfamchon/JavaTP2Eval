@@ -109,6 +109,10 @@ public class Personne implements IDomainObject {
         notifier();
     }
 
+    public List<Observateur> getObs() {
+        return obs;
+    }
+
     public void accepter(Visiteur v) {
         v.visiter(this);
     }

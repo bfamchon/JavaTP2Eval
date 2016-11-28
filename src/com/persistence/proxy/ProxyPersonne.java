@@ -1,4 +1,4 @@
-package com.persistence;
+package com.persistence.proxy;
 
 import com.domain.Personne;
 import com.persistence.mapper.PersonneMapper;
@@ -18,9 +18,8 @@ public class ProxyPersonne extends Personne{
     }
     public void initialize() throws SQLException {
         // Initialiser l'objet proxyfié avec la BD
-        PersonneMapper PM = new PersonneMapper();
         try {
-            inst = PM.findById(2);
+            inst = PersonneMapper.getInstance().findById(2);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -38,6 +37,7 @@ public class ProxyPersonne extends Personne{
             }
         }
     }
+
     public Integer getId() throws SQLException {
         ensureIsInitialized();
         return inst.getId();
@@ -107,4 +107,5 @@ public class ProxyPersonne extends Personne{
         inst.setTel(tel);
         notifier();
     }
+
 }

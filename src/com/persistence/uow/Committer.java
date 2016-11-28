@@ -3,6 +3,8 @@ package com.persistence.uow;
 import com.domain.Personne;
 import com.persistence.mapper.PersonneMapper;
 
+import java.sql.SQLException;
+
 /**
  * Created by baptiste on 20/11/16.
  * Hi
@@ -11,7 +13,11 @@ import com.persistence.mapper.PersonneMapper;
  */
  public class Committer extends Visiteur {
     public void visiter(Personne p) {
-        PersonneMapper.getInstance().update(p);
+        try {
+            PersonneMapper.getInstance().update(p);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

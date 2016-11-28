@@ -1,10 +1,10 @@
-package src.com.controller;
+package com.controller;
 
 import java.util.HashMap;
 
 import com.constante.*;
 
-import vue.Vue;
+import com.vue.Vue;
 
 /**
  * @author laurent

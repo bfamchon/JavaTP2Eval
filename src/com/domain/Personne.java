@@ -20,7 +20,6 @@ public class Personne implements IDomainObject {
     private String prenom;
     private String tel;
     private String evaluation;
-    private Personne pere;
     private List<Personne> fils;
 
     public Personne() {
@@ -28,7 +27,6 @@ public class Personne implements IDomainObject {
         this.tel = "";
         this.prenom = "";
         this.fils = new ArrayList<>();
-        this.pere = null;
         this.obs = new ArrayList<>();
     }
 
@@ -37,7 +35,6 @@ public class Personne implements IDomainObject {
         this.tel = tel;
         this.prenom = prenom;
         this.fils = new ArrayList<>();
-        this.pere = null;
         this.obs = new ArrayList<>();
     }
 
@@ -76,14 +73,6 @@ public class Personne implements IDomainObject {
         notifier();
     }
 
-    public Personne getPere() throws SQLException {
-        return pere;
-    }
-
-    public void setPere(Personne pere) {
-        this.pere = pere;
-        notifier();
-    }
 
     public List<Personne> getFils() throws SQLException {
         return fils;
@@ -122,7 +111,7 @@ public class Personne implements IDomainObject {
     }
 
     /**
-     * On notifie l'observateur que l'on à fait un changement
+     * On notifie l'observateur que l'on a fait un changement
      */
     public void notifier() {
         for (Observateur o : obs)

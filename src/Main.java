@@ -10,11 +10,11 @@ import com.persistence.proxy.VirtualProxyBuilder;
 
 public class Main {
 
-    public static void main(String[] args) throws IllegalAccessException, InvocationTargetException, Throwable{
+    public static void main(String[] args) throws IllegalAccessException, InvocationTargetException, Throwable {
         Factory<List<Personne>> lp = new ListPersonneFactory();
         int iddupere = 5;
         Criteria critere = new PersonneCriteria(iddupere);
         List<Personne> fils = new VirtualProxyBuilder<List<Personne>>(List.class , lp, critere).getProxy();
-        System.out.println(fils.get(0).getNom());
+//        System.out.println(fils.get(0).getNom());
     }
 }

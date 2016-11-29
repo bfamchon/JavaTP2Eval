@@ -2,16 +2,15 @@ package com.persistence.mapper;
 
 import com.domain.Personne;
 import com.persistence.gestionnaireconnexion.DBConfig;
+import com.persistence.proxy.Factory;
+import com.persistence.proxy.ListPersonneFactory;
+import com.persistence.proxy.VirtualProxyBuilder;
 import com.persistence.uow.UnitOfWork;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.List;
-
-import static com.persistence.Extraction.extrairePersonne;
-
 
 /**
  * Created by baptiste on 20/11/16.
@@ -23,21 +22,13 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
      * Constantes utilisées pour nos requetes dans le Personne Mapper
      */
     private static final String SELECT_FROM_PERSONNE_WHERE_ID  = "SELECT " +
-            "p.id, p.nom, p.prenom, p.telephone, p.evaluation, " +
-            "p2.id, p2.nom, p2.prenom, p2.telephone, p2.evaluation, " +
-            "p1.id, p1.nom, p1.prenom, p1.telephone, p1.evaluation " +
+            "p.id, p.nom, p.prenom, p.telephone, p.evaluation " +
             "FROM personne p " +
-            "LEFT JOIN personne p1 ON p1.idPere = p.id " +
-            "LEFT JOIN personne p2 ON p2.id = p.idPere " +
             "WHERE p.id=?";
 
     private static final String SELECT_FROM_PERSONNE = "SELECT " +
             "p.id, p.nom, p.prenom, p.telephone, p.evaluation, " +
-            "p2.id, p2.nom, p2.prenom, p2.telephone, p2.evaluation, " +
-            "p1.id, p1.nom, p1.prenom, p1.telephone, p1.evaluation " +
-            "FROM personne p " +
-            "LEFT JOIN personne p1 ON p1.idPere = p.id " +
-            "LEFT JOIN personne p2 ON p2.id = p.idPere ";
+            "FROM personne p ";
 
     private static final String UPDATE_PERSONNE_SET_INFOS_WHERE_ID = "UPDATE personne " +
             "SET nom = ?, prenom = ?, telephone = ?, evaluation = ?, idPere = ? " +
@@ -65,11 +56,6 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
             ps.setString(3,p.getPrenom());
             ps.setString(4,p.getTel());
             ps.setString(5,p.getEvaluation());
-            if (p.getPere() != null) {
-                ps.setInt(6, p.getPere().getId());
-            } else {
-                ps.setNull(6, Types.INTEGER);
-            }
             ps.executeUpdate();
         }
     }
@@ -80,7 +66,6 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
     }
 
     public void update(Personne p) throws SQLException {
-        // faire des accès en base: alter table blablabla
         if ( p != null ) {
             String req = UPDATE_PERSONNE_SET_INFOS_WHERE_ID;
             PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
@@ -88,11 +73,6 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
             ps.setString(2,p.getPrenom());
             ps.setString(3,p.getTel());
             ps.setString(4,p.getEvaluation());
-            if (p.getPere() != null) {
-                ps.setInt(5, p.getPere().getId());
-            } else {
-                ps.setNull(5, Types.INTEGER);
-            }
             ps.setInt(6,p.getId());
             ps.executeUpdate();
             System.out.println("PM.update(): MÀJ personne dans la base de donnees.");
@@ -113,11 +93,38 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
         ResultSet rs = ps.executeQuery();
 //		Si on a au moins une ligne en retour
         if(rs.next()) {
-            p = extrairePersonne(rs);
+            p = this.extrairePersonne(rs);
             p.add(UnitOfWork.getInstance());
             return p;
         }
         return null;
+    }
+    /**
+     * Permet d'extraire une personne et ses fils/pere d'une requete venant de PersonneMapper
+     *
+     * @param rs une ligne résultante de la requete
+     */
+    private Personne extrairePersonne(ResultSet rs) throws SQLException {
+        Personne personne;
+        Factory<List<Personne>> lp = new ListPersonneFactory();
+        List<Personne> fils = new VirtualProxyBuilder<List<Personne>>(List.class , lp, null).getProxy();
+
+        personne = this.initPersonne(rs);
+        personne.setFils(fils);
+
+        return personne;
+    }
+
+    private Personne initPersonne(ResultSet rs) throws SQLException {
+        Personne personne = new Personne();
+        // On initialise la personne
+        personne.setId(rs.getInt(1));
+        personne.setNom(rs.getString(2));
+        personne.setPrenom(rs.getString(3));
+        personne.setTel(rs.getString(4));
+        personne.setEvaluation(rs.getString(5));
+
+        return personne;
     }
 }
 

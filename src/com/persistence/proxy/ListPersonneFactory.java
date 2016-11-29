@@ -21,7 +21,7 @@ public class ListPersonneFactory implements Factory<List<Personne>> {
 
     	// lp = pMap.findByIdPERE(id);
 
-        //TODO appel couche persistance via crit�re
+        // TODO appel couche persistance via critere
         return lp;
             /*
              * Dans une situation réelle, ici, on pourrait créer notre objet en appelant le DataMapper pour le

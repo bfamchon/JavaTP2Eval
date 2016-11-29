@@ -17,7 +17,7 @@ public class VirtualProxyBuilder<T> implements InvocationHandler {
     /* C'est la fabrique qui nous permettra de creer l'objet realObject, au moment opportun. */
     Factory<T> factory;
 
-    /* Critère passé à la factory afin de retrouver l'objet souhaité en base*/
+    /* Critere passe a la factory afin de retrouver l'objet souhaite en base*/
     private Criteria critere;
     /*
      * iface c'est l'objet qui va representer le type T.

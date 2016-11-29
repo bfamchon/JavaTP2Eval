@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import com.domaine.criteria.Criteria;
+
 /**
  * Created by baptiste on 28/11/16.
  * Hi
@@ -15,6 +17,8 @@ public class VirtualProxyBuilder<T> implements InvocationHandler {
     /* C'est la fabrique qui nous permettra de creer l'objet realObject, au moment opportun. */
     Factory<T> factory;
 
+    /* Critère passé à la factory afin de retrouver l'objet souhaité en base*/
+    private Criteria critere;
     /*
      * iface c'est l'objet qui va representer le type T.
      * Ca sera egal a T.class, sauf qu'on ne peut pas ecrire ca en Java a cause du type erasure.
@@ -25,9 +29,10 @@ public class VirtualProxyBuilder<T> implements InvocationHandler {
      * alors iface doit etre Toto.class. Si on ne respecte pas ceci, on aura une exception lors de l'appel
      * de getProxy()
      */
-    public VirtualProxyBuilder(Class<?> iface, Factory<T> factory) {
+    public VirtualProxyBuilder(Class<?> iface, Factory<T> factory, Criteria critere) {
         this.iface = iface;
         this.factory = factory;
+        this.critere = critere;
     }
     /*
      * getProxy() va creer un virtual proxy de T, et le retourner.
@@ -57,7 +62,7 @@ public class VirtualProxyBuilder<T> implements InvocationHandler {
         System.out.println("PROXY: On a appelle la methode " + method.getName() + " sur le virtual proxy!");
         if (realObject == null) {
             System.out.println("PROXY: On initialise l'objet proxyfiÃ© maintenant");
-            realObject = factory.create();
+            realObject = factory.create(critere);
         }
         System.out.println("PROXY: On appelle la methode sur l'objet reel.");
         return method.invoke(realObject, args);

@@ -16,10 +16,9 @@ import com.persistence.mapper.PersonneMapper;
 public class ListPersonneFactory implements Factory<List<Personne>> {
     public List<Personne> create(Criteria critere) throws SQLException {
     	PersonneMapper pMap = new PersonneMapper();
-        ArrayList<Personne> lp = new ArrayList<Personne>();
+        List<Personne> lp;
         int id = ((PersonneCriteria) critere).getId();
-
-    	// lp = pMap.findByIdPERE(id);
+        lp = pMap.findFilsByIdPere(id);
 
         // TODO appel couche persistance via critere
         return lp;

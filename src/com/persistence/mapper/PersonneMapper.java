@@ -10,6 +10,7 @@ import com.persistence.uow.UnitOfWork;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,9 +36,13 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
             "WHERE id = ?";
 
     private static final String INSERT_INTO_PERSONNE_VALUES = "INSERT INTO personne VALUES(?,?,?,?,?,?)";
+
+    private static final String SELECT_FILS_WHERE_IDPERE = "SELECT " +
+            "p1.id, p1.nom, p1.prenom, p1.telephone, p1.evaluation " +
+            "FROM personne p JOIN personne p1 ON p1.idPere = p.id " +
+            "WHERE p.id = ?";
     // TODO Autres requetes
     private static final String DELETE_FROM_PERSONNE_WHERE_ID = "DELETE FROM personne WHERE id=?";
-    private static final String SEARCH_MAX_ID = "SELECT MAX(id) as maxid FROM personne";
 
     static PersonneMapper inst;
     public static PersonneMapper getInstance() {
@@ -86,8 +91,7 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
 
     @Override
     public Personne findById(Integer id) throws SQLException {
-        // faire des accès en base: SELECT ... WHERE id = id
-        Personne p = new Personne();
+        Personne p;
         PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(SELECT_FROM_PERSONNE_WHERE_ID);
         ps.setInt(1,id);
         ResultSet rs = ps.executeQuery();
@@ -98,6 +102,21 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
             return p;
         }
         return null;
+    }
+
+    public List<Personne> findFilsByIdPere(Integer idPere) throws SQLException {
+        List<Personne> lp = new ArrayList<>();
+        Personne p;
+        PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(SELECT_FILS_WHERE_IDPERE);
+        ps.setInt(1,idPere);
+        ResultSet rs = ps.executeQuery();
+//		Si on a au moins une ligne en retour
+        while(rs.next()) {
+            p = this.extrairePersonne(rs);
+            p.add(UnitOfWork.getInstance());
+            lp.add(p);
+        }
+        return lp;
     }
     /**
      * Permet d'extraire une personne et ses fils/pere d'une requete venant de PersonneMapper

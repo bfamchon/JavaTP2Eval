@@ -12,9 +12,11 @@ public class Main {
 
     public static void main(String[] args) throws IllegalAccessException, InvocationTargetException, Throwable {
         Factory<List<Personne>> lp = new ListPersonneFactory();
-        int iddupere = 5;
+        int iddupere = 0;
         Criteria critere = new PersonneCriteria(iddupere);
         List<Personne> fils = new VirtualProxyBuilder<List<Personne>>(List.class , lp, critere).getProxy();
-//        System.out.println(fils.get(0).getNom());
+        for (Personne p : fils) {
+            System.out.println(p.getId() + " " + p.getNom() + " " + p.getPrenom() + " " + p.getTel() + " " + p.getEvaluation());
+        }
     }
 }

@@ -4,12 +4,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * Repr�sente la Frame principal de l'application
+ * Represente la Frame principal de l'application
  * @author laurent
  *
  */
 public class MainFrame extends JFrame {
-
 	private static final String TITRE_FENETRE_INITIAL = "TP COO Trimestre 1";
 	/**
 	 *
@@ -17,8 +16,6 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 15220674368630040L;
 
 	private static MainFrame instance = null;
-
-
 
 	public static MainFrame getInstance(){
 		if(instance == null ){
@@ -28,7 +25,7 @@ public class MainFrame extends JFrame {
 	}
 
 	/**
-	 * Constructeur appel� par le Main au lancement de l'application
+	 * Constructeur appele par le Main au lancement de l'application
 	 */
 	public MainFrame() {
 		super(TITRE_FENETRE_INITIAL);
@@ -37,9 +34,7 @@ public class MainFrame extends JFrame {
 
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-
 	}
-
 
 	public static void changerPanelFrame(final JFrame frame, final JPanel jpan){
 		frame.getContentPane().removeAll();
@@ -48,5 +43,4 @@ public class MainFrame extends JFrame {
 		frame.revalidate();
 		frame.setVisible(true);
 	}
-
 }

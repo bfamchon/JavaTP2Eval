@@ -7,12 +7,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-
 import com.controller.ModelAndView;
-import com.vue.mainframe.MainFrame;
 
 /**
- * Page correspondant � l'accueil de l'application apr�s connexion
+ * Page correspondant a l'accueil de l'application apres connexion
  * @author laurent
  */
 public class JP_Accueil extends JPanelPerso implements ActionListener {
@@ -42,7 +40,6 @@ public class JP_Accueil extends JPanelPerso implements ActionListener {
 		final JButton bouton = new JButton("Deconnexion");
 		bouton.addActionListener(this);
 		this.add(bouton);
-
 
 		this.labelInfo = new JLabel();
 		this.add(this.labelInfo);

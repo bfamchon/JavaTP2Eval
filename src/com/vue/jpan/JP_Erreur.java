@@ -9,7 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import com.controller.ModelAndView;
-import com.vue.mainframe.MainFrame;
 
 public class JP_Erreur extends JPanelPerso implements ActionListener{
 

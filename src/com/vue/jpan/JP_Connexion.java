@@ -12,12 +12,11 @@ import javax.swing.JTextField;
 import com.constante.Constante;
 
 import com.controller.ModelAndView;
-import com.vue.mainframe.MainFrame;
 
 public class JP_Connexion extends JPanelPerso implements ActionListener{
 
 	/**
-	 * Vue correspondant � la connexion
+	 * Vue correspondant a la connexion
 	 */
 	private static final long serialVersionUID = -8241030884619610422L;
 
@@ -46,15 +45,13 @@ public class JP_Connexion extends JPanelPerso implements ActionListener{
 		this.add(this.labelInfo);
 
 		this.textFieldName  = new JTextField();
-		this.textFieldName.setColumns(10); //On lui donne un nombre de colonnes � afficher
+		this.textFieldName.setColumns(10); //On lui donne un nombre de colonnes a afficher
 
 		this.add(this.textFieldName);
 
 		final JButton bouton = new JButton("Connexion");
 		bouton.addActionListener(this);
 		this.add(bouton);
-
-
 
 	}
 

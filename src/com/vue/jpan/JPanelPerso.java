@@ -23,8 +23,6 @@ public abstract class JPanelPerso extends JPanel implements Vue {
 	protected JFrame frame;
 	protected ModelAndView mav;
 
-
-
 	public JPanelPerso(final ModelAndView mav) {
 		super();
 		this.frame = MainFrame.getInstance();

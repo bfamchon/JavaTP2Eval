@@ -10,8 +10,9 @@ import java.util.List;
  * Hi
  */
 public class ListPersonneFactory implements Factory<List<Personne>> {
+    @Override
     public List<Personne> create() {
-        ArrayList<Personne> lp = new ArrayList<Personne>();
+        List<Personne> lp = new ArrayList<>();
         lp.add(new Personne("FAMCHON","Baptiste","0618"));
         return lp;
             /*

@@ -30,7 +30,7 @@ public abstract class JPanelPerso extends JPanel implements Vue {
 	}
 
 	public void start(){
-		MainFrame.changerPanelFrame(this.frame,(JPanel) this.mav.getVue());
+		MainFrame.changerPanelFrame(this.frame, this);
 	}
 
 	public JFrame getFrame() {

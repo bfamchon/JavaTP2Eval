@@ -1,16 +1,24 @@
 package com.vue.jpan;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.constante.Constante;
+import com.controller.ConnexionControler;
 import com.controller.ModelAndView;
 import com.controller.ModifEvalControler;
+import com.controller.ValiderControler;
 import com.domain.Personne;
 
 /**
@@ -48,8 +56,7 @@ public class JP_Accueil extends JPanelPerso implements ActionListener, ListSelec
 	 * Construit le panel
 	 */
 	private void buildContentPane(){
-		GridLayout gridLayout = new GridLayout(6,1);
-		this.frame.setLayout(gridLayout);
+		this.frame.setLayout(new BorderLayout());
 
 		this.add(new JLabel("Vous: "+ personne.getNom() + ' ' + personne.getPrenom())) ;
 		this.add(new JLabel("Votre père: " + papa.getNom()+ ' '+ papa.getPrenom()));
@@ -67,10 +74,17 @@ public class JP_Accueil extends JPanelPerso implements ActionListener, ListSelec
 		for ( Personne p: personne.getFils()) {
 			lmodel.addElement(p);
 		}
+		JListFils = new JList<Personne>(lmodel);
+		JListFils.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JListFils.setVisibleRowCount(5);
+		JListFils.addListSelectionListener(this);
+		JScrollPane listScrollPane = new JScrollPane(JListFils);
 
+		this.add(listScrollPane);
 		this.add(new JLabel("Evaluation de "));
 		this.textFieldNote = new JTextField(10);
-
+		this.add(this.textFieldNote);
+		
 		boutonValider = new JButton("Valider");
 		boutonValider.addActionListener(this);
 		this.add(boutonValider);
@@ -82,11 +96,14 @@ public class JP_Accueil extends JPanelPerso implements ActionListener, ListSelec
 	@Override
 	public void actionPerformed(final ActionEvent e) {
 		if(e.getSource().equals(this.boutonAnnuler)){
+			this.mav.addRequest(Constante.EXFILS,exSelectedFils);
+			this.mav.addRequest(Constante.EVALUATION,textFieldNote.getText());
+			ModifEvalControler.doPost(mav);
 			this.mav.viderSession();
 			this.mav.setVue(new JP_Connexion(this.mav));
 			this.mav.getVue().start();
 		}if(e.getSource().equals(this.boutonValider)){
-
+			this.setMav(ValiderControler.doPost(this.mav));
 		}
 	}
 

@@ -45,8 +45,10 @@ public class Personne implements IDomainObject {
     }
 
     public void setId(Integer id) {
-        this.id = id;
-        notifier();
+    	if(this.id != id){
+    		this.id = id;
+    		notifier();
+    	}
     }
 
     public String getNom() {
@@ -71,8 +73,10 @@ public class Personne implements IDomainObject {
     }
 
     public void setEvaluation(String evaluation) {
-        this.evaluation = evaluation;
-        notifier();
+    	if(evaluation != this.evaluation){
+    		this.evaluation = evaluation;
+    		notifier();
+    	}
     }
 
 
@@ -86,26 +90,32 @@ public class Personne implements IDomainObject {
     }
 
     public void setFils(List<Personne> fils) {
-        this.fils = fils;
-        notifier();
+    	this.fils = fils;
+    	notifier();
     }
 
     public void setNom(String nom) {
-        this.nom = nom;
-        notifier();
+    	if(nom != this.nom){
+	        this.nom = nom;
+	        notifier();
+    	}
     }
 
     public void setTel(String tel) {
-        this.tel = tel;
-        notifier();
+    	if(tel != this.tel){
+    		this.tel = tel;
+        	notifier();
+    	}
     }
     public Integer getIdPere() {
         return idPere;
     }
 
     public void setIdPere(Integer idPere) {
-        this.idPere = idPere;
-        notifier();
+    	if(idPere != this.idPere){
+    		this.idPere = idPere;
+        	notifier();
+    	}
     }
 
     public List<Observateur> getObs() {
@@ -132,4 +142,57 @@ public class Personne implements IDomainObject {
     public String toString() {
         return this.getPrenom() + " " + this.getNom();
     }
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Personne other = (Personne) obj;
+		if (evaluation == null) {
+			if (other.evaluation != null)
+				return false;
+		} else if (!evaluation.equals(other.evaluation))
+			return false;
+		if (fils == null) {
+			if (other.fils != null)
+				return false;
+		} else if (!fils.equals(other.fils))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (idPere == null) {
+			if (other.idPere != null)
+				return false;
+		} else if (!idPere.equals(other.idPere))
+			return false;
+		if (nom == null) {
+			if (other.nom != null)
+				return false;
+		} else if (!nom.equals(other.nom))
+			return false;
+		if (obs == null) {
+			if (other.obs != null)
+				return false;
+		} else if (!obs.equals(other.obs))
+			return false;
+		if (prenom == null) {
+			if (other.prenom != null)
+				return false;
+		} else if (!prenom.equals(other.prenom))
+			return false;
+		if (tel == null) {
+			if (other.tel != null)
+				return false;
+		} else if (!tel.equals(other.tel))
+			return false;
+		return true;
+	}
+    
 }

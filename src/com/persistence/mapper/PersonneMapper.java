@@ -39,7 +39,7 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
     private static final String INSERT_INTO_PERSONNE_VALUES = "INSERT INTO personne VALUES(?,?,?,?,?,?)";
 
     private static final String SELECT_FILS_WHERE_IDPERE = "SELECT " +
-            "p.id, p.nom, p.prenom, p.telephone, p.evaluation " +
+            "p.id, p.nom, p.prenom, p.telephone, p.evaluation, p.idPere " +
             "FROM personne p " +
             "WHERE p.idPere = ?";
 
@@ -80,6 +80,7 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
             ps.setString(2,p.getPrenom());
             ps.setString(3,p.getTel());
             ps.setString(4,p.getEvaluation());
+            ps.setInt(5,p.getIdPere());
             ps.setInt(6,p.getId());
             ps.executeUpdate();
             System.out.println("PM.update(): MÀJ personne dans la base de donnees.");

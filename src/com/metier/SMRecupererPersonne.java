@@ -28,7 +28,11 @@ public class SMRecupererPersonne {
     }
 
     public Personne process(Criteria pc) throws SQLException, UtilisateurInconnuException{
-        return pMapper.findById(((PersonneCriteria) pc).getId());
+         Personne p = pMapper.findById(((PersonneCriteria) pc).getId());
+         if (p==null){
+        	 throw new UtilisateurInconnuException("L'utilisateur n'existe pas");
+         }
+         return p;
     }
 
     /**

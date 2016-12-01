@@ -23,7 +23,7 @@ public class ModifEvalControler {
         Personne p;
 
         SMUpdatePersonne smrp = new SMUpdatePersonne();
-        p = smrp.updateEvaluation(exFils,eval);
+        p = smrp.process(exFils,eval);
 
         mav.addSession(Constante.EXFILS,p);
 

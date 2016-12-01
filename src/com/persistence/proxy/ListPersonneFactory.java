@@ -1,12 +1,11 @@
 package com.persistence.proxy;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.domain.Personne;
-import com.domaine.criteria.Criteria;
-import com.domaine.criteria.PersonneCriteria;
+import com.domain.criteria.Criteria;
+import com.domain.criteria.PersonneCriteria;
 import com.persistence.mapper.PersonneMapper;
 
 /**
@@ -19,12 +18,6 @@ public class ListPersonneFactory implements Factory<List<Personne>> {
         List<Personne> lp;
         int id = ((PersonneCriteria) critere).getId();
         lp = pMap.findFilsByIdPere(id);
-
-        // TODO appel couche persistance via critere
         return lp;
-            /*
-             * Dans une situation réelle, ici, on pourrait créer notre objet en appelant le DataMapper pour le
-             * récuperer depuis la base de données.
-             */
     }
 }

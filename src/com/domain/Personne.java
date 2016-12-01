@@ -22,6 +22,8 @@ public class Personne implements IDomainObject {
     private String evaluation;
     private List<Personne> fils;
 
+    private Integer idPere;
+
     public Personne() {
         this.nom = "";
         this.tel = "";
@@ -38,7 +40,7 @@ public class Personne implements IDomainObject {
         this.obs = new ArrayList<>();
     }
 
-    public Integer getId() throws SQLException {
+    public Integer getId()  {
         return id;
     }
 
@@ -47,11 +49,11 @@ public class Personne implements IDomainObject {
         notifier();
     }
 
-    public String getNom() throws SQLException {
+    public String getNom() {
         return nom;
     }
 
-    public String getPrenom() throws SQLException {
+    public String getPrenom() {
         return prenom;
     }
 
@@ -60,11 +62,11 @@ public class Personne implements IDomainObject {
         notifier();
     }
 
-    public String getTel() throws SQLException {
+    public String getTel()  {
         return tel;
     }
 
-    public String getEvaluation() throws SQLException {
+    public String getEvaluation()  {
         return evaluation;
     }
 
@@ -74,11 +76,11 @@ public class Personne implements IDomainObject {
     }
 
 
-    public List<Personne> getFils() throws SQLException {
+    public List<Personne> getFils() {
         return fils;
     }
 
-    public void addFils(Personne fils) throws SQLException {
+    public void addFils(Personne fils)  {
         this.fils.add(fils);
         notifier();
     }
@@ -95,6 +97,14 @@ public class Personne implements IDomainObject {
 
     public void setTel(String tel) {
         this.tel = tel;
+        notifier();
+    }
+    public Integer getIdPere() {
+        return idPere;
+    }
+
+    public void setIdPere(Integer idPere) {
+        this.idPere = idPere;
         notifier();
     }
 
@@ -118,4 +128,8 @@ public class Personne implements IDomainObject {
             o.action(this);
     }
 
+    @Override
+    public String toString() {
+        return this.getPrenom() + " " + this.getNom();
+    }
 }

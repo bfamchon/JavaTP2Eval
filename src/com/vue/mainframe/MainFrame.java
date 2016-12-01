@@ -2,6 +2,7 @@ package com.vue.mainframe;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.*;
 
 /**
  * Represente la Frame principal de l'application
@@ -30,6 +31,7 @@ public class MainFrame extends JFrame {
 	public MainFrame() {
 		super(TITRE_FENETRE_INITIAL);
 
+		this.setMinimumSize(new Dimension(700, 700));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);

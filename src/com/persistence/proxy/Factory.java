@@ -2,7 +2,7 @@ package com.persistence.proxy;
 
 import java.sql.SQLException;
 
-import com.domaine.criteria.Criteria;
+import com.domain.criteria.Criteria;
 
 /**
  * Created by baptiste on 28/11/16.

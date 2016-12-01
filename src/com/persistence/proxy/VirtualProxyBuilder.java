@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-import com.domaine.criteria.Criteria;
+import com.domain.criteria.Criteria;
 
 /**
  * Created by baptiste on 28/11/16.
@@ -12,7 +12,7 @@ import com.domaine.criteria.Criteria;
  */
 public class VirtualProxyBuilder<T> implements InvocationHandler {
     /* C'est l'objet "reel", celui pour lequel on fait le proxy. Il est null au debut, il sera cree lors du premier appel de methode. */
-    T realObject = null;
+    T realObject;
 
     /* C'est la fabrique qui nous permettra de creer l'objet realObject, au moment opportun. */
     Factory<T> factory;
@@ -33,6 +33,7 @@ public class VirtualProxyBuilder<T> implements InvocationHandler {
         this.iface = iface;
         this.factory = factory;
         this.critere = critere;
+        this.realObject = null;
     }
     /*
      * getProxy() va creer un virtual proxy de T, et le retourner.

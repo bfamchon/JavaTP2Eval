@@ -1,6 +1,7 @@
 package com.persistence.mapper;
 
 import com.domain.Personne;
+import com.domain.criteria.PersonneCriteria;
 import com.persistence.gestionnaireconnexion.DBConfig;
 import com.persistence.proxy.Factory;
 import com.persistence.proxy.ListPersonneFactory;
@@ -23,7 +24,7 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
      * Constantes utilisées pour nos requetes dans le Personne Mapper
      */
     private static final String SELECT_FROM_PERSONNE_WHERE_ID  = "SELECT " +
-            "p.id, p.nom, p.prenom, p.telephone, p.evaluation " +
+            "p.id, p.nom, p.prenom, p.telephone, p.evaluation, p.idPere " +
             "FROM personne p " +
             "WHERE p.id=?";
 
@@ -38,10 +39,11 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
     private static final String INSERT_INTO_PERSONNE_VALUES = "INSERT INTO personne VALUES(?,?,?,?,?,?)";
 
     private static final String SELECT_FILS_WHERE_IDPERE = "SELECT " +
-            "p1.id, p1.nom, p1.prenom, p1.telephone, p1.evaluation " +
-            "FROM personne p JOIN personne p1 ON p1.idPere = p.id " +
-            "WHERE p.id = ?";
-    // TODO Autres requetes
+            "p.id, p.nom, p.prenom, p.telephone, p.evaluation " +
+            "FROM personne p " +
+            "WHERE p.idPere = ?";
+
+
     private static final String DELETE_FROM_PERSONNE_WHERE_ID = "DELETE FROM personne WHERE id=?";
 
     static PersonneMapper inst;
@@ -97,7 +99,7 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
         ResultSet rs = ps.executeQuery();
 //		Si on a au moins une ligne en retour
         if(rs.next()) {
-            p = this.extrairePersonne(rs);
+            p = this.initPersonne(rs);
             p.add(UnitOfWork.getInstance());
             return p;
         }
@@ -112,28 +114,18 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
         ResultSet rs = ps.executeQuery();
 //		Si on a au moins une ligne en retour
         while(rs.next()) {
-            p = this.extrairePersonne(rs);
+            p = this.initPersonne(rs);
             p.add(UnitOfWork.getInstance());
             lp.add(p);
         }
         return lp;
     }
+
     /**
-     * Permet d'extraire une personne et ses fils/pere d'une requete venant de PersonneMapper
+     * Permet d'extraire et initialiser une personne d'une requete
      *
      * @param rs une ligne résultante de la requete
      */
-    private Personne extrairePersonne(ResultSet rs) throws SQLException {
-        Personne personne;
-        Factory<List<Personne>> lp = new ListPersonneFactory();
-        List<Personne> fils = new VirtualProxyBuilder<List<Personne>>(List.class , lp, null).getProxy();
-
-        personne = this.initPersonne(rs);
-        personne.setFils(fils);
-
-        return personne;
-    }
-
     private Personne initPersonne(ResultSet rs) throws SQLException {
         Personne personne = new Personne();
         // On initialise la personne
@@ -143,6 +135,12 @@ public class PersonneMapper implements InterfaceMapper<Personne>{
         personne.setTel(rs.getString(4));
         personne.setEvaluation(rs.getString(5));
 
+        Factory<List<Personne>> lp = new ListPersonneFactory();
+        List<Personne> fils = new VirtualProxyBuilder<List<Personne>>
+                (List.class , lp, new PersonneCriteria(personne.getId())).getProxy();
+        personne.setFils(fils);
+
+        personne.setIdPere(rs.getInt(6));
         return personne;
     }
 }

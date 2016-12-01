@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 
 import com.constante.Constante;
 
+import com.controller.ConnexionControler;
 import com.controller.ModelAndView;
 
 public class JP_Connexion extends JPanelPerso implements ActionListener{
@@ -22,7 +23,6 @@ public class JP_Connexion extends JPanelPerso implements ActionListener{
 
 
 	private JTextField textFieldName;
-	private JPasswordField passwordField;
 	private JLabel labelInfo;
 
 	/**
@@ -41,7 +41,7 @@ public class JP_Connexion extends JPanelPerso implements ActionListener{
 	private void buildContentPane(){
 		this.frame.setLayout(new FlowLayout());
 
-		this.labelInfo = new JLabel();
+		this.labelInfo = new JLabel("Votre id: ");
 		this.add(this.labelInfo);
 
 		this.textFieldName  = new JTextField();
@@ -57,14 +57,13 @@ public class JP_Connexion extends JPanelPerso implements ActionListener{
 
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		/*this.mav.addRequest(Constante.PSEUDO, this.textFieldName.getText());
-		this.setMav(ConnexionControler.doPost(this.mav));*/
-		if(this.mav.recupRequest(Constante.IDENTIFIANT_PERSONNE) != null){
+		this.mav.addRequest(Constante.IDENTIFIANT_PERSONNE,this.textFieldName.getText());
+		this.setMav(ConnexionControler.doPost(this.mav));
+		if(this.mav.recupSession(Constante.UTILISATEUR) != null){
 			this.mav.setVue(new JP_Accueil(this.mav));
 			this.mav.getVue().start();
 		}else{
-			this.labelInfo.setText(this.mav.getErreur());
-			this.repaint();
+			new JP_Erreur(this.mav).start();
 		}
 	}
 }

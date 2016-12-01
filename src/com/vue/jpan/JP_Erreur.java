@@ -35,6 +35,7 @@ public class JP_Erreur extends JPanelPerso implements ActionListener{
 	private void buildContentPane(){
 		this.frame.setLayout(new FlowLayout());
 
+
 		final JButton bouton = new JButton("Retour");
 		bouton.addActionListener(this);
 		this.add(bouton);

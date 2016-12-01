@@ -13,4 +13,9 @@ public class Constante {
 	
 	public final static String IDENTIFIANT_PERSONNE = "IDPERS";
 	public static final String MESSAGE_ERREUR = "MSGERROR";
+	public static final String UTILISATEUR = "UTILISATEUR";
+    public static final String PERE = "PAPAJETAIME";
+	public static final String EVALUATION = "EVALUATION";
+	public static final String EXFILS = "EXFILS";
+
 }

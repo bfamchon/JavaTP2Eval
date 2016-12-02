@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="mysql-connector-java-5.1.40-bin">
+    <archive path="/home/baptiste/Documents/Cours/COO/JavaTP2Eval/lib/mysql-connector-java-5.1.40-bin.jar" />
+  </library>
+</eclipse-userlibraries>
+

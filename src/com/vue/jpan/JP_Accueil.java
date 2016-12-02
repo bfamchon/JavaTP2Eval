@@ -15,7 +15,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.constante.Constante;
-import com.controller.ConnexionControler;
 import com.controller.ModelAndView;
 import com.controller.ModifEvalControler;
 import com.controller.ValiderControler;
@@ -58,8 +57,8 @@ public class JP_Accueil extends JPanelPerso implements ActionListener, ListSelec
 	private void buildContentPane(){
 		this.frame.setLayout(new BorderLayout());
 
-		this.add(new JLabel("Vous: "+ personne.getNom() + ' ' + personne.getPrenom())) ;
-		this.add(new JLabel("Votre père: " + papa.getNom()+ ' '+ papa.getPrenom()));
+		this.add(new JLabel("Vous: "+ personne.getPrenom() + ' ' + personne.getNom())) ;
+		this.add(new JLabel("Votre père: " + papa.getPrenom()+ ' '+ papa.getNom()));
 		this.add(new JLabel("Votre évaluation: "+ personne.getEvaluation()));
 
 		this.boutonAnnuler = new JButton("Annuler");
@@ -68,7 +67,6 @@ public class JP_Accueil extends JPanelPerso implements ActionListener, ListSelec
 
 		this.add(new JLabel("Vos fils: "));
 
-		// Liste
 		JListFils = new JList<Personne>();
 		DefaultListModel<Personne> lmodel = new DefaultListModel<Personne>();
 		for ( Personne p: personne.getFils()) {

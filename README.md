@@ -23,3 +23,7 @@ Il suffit d'exécuter le main.
 IdentityHashMap
 ---------------
 Il aurait été intéressant de mettre en place ce pattern avec les weak-references pour éviter de récupérer deux fois le même objet en base.
+
+À ne pas oublier
+----------------
+Rentrer vos identifiants dans DBConfig et dans les constantes.

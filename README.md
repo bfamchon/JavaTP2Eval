@@ -19,3 +19,7 @@ Nos différents diagrammes se trouvent dans le dossier du même nom, ils ont ét
 Lancement de notre application
 ------------------------------
 Il suffit d'exécuter le main.
+
+IdentityHashMap
+---------------
+Il aurait intéressant de mettre en place ce pattern avec les weak-references pour éviter de récupérer deux fois le même objet en base.

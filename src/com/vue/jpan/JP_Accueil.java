@@ -79,7 +79,7 @@ public class JP_Accueil extends JPanelPerso implements ActionListener, ListSelec
 		JScrollPane listScrollPane = new JScrollPane(JListFils);
 
 		this.add(listScrollPane);
-		this.add(new JLabel("Evaluation de "));
+		this.add(new JLabel("Evaluation: "));
 		this.textFieldNote = new JTextField(10);
 		this.add(this.textFieldNote);
 		
@@ -93,14 +93,13 @@ public class JP_Accueil extends JPanelPerso implements ActionListener, ListSelec
 
 	@Override
 	public void actionPerformed(final ActionEvent e) {
-		if(e.getSource().equals(this.boutonAnnuler)){
+		if(e.getSource().equals(this.boutonAnnuler)) {
+			this.mav.setVue(new JP_Connexion(this.mav));
+			this.mav.getVue().start();
+		} if(e.getSource().equals(this.boutonValider)) {
 			this.mav.addRequest(Constante.EXFILS,exSelectedFils);
 			this.mav.addRequest(Constante.EVALUATION,textFieldNote.getText());
 			ModifEvalControler.doPost(mav);
-			this.mav.viderSession();
-			this.mav.setVue(new JP_Connexion(this.mav));
-			this.mav.getVue().start();
-		}if(e.getSource().equals(this.boutonValider)){
 			this.setMav(ValiderControler.doPost(this.mav));
 		}
 	}

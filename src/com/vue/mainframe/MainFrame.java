@@ -31,11 +31,10 @@ public class MainFrame extends JFrame {
 	public MainFrame() {
 		super(TITRE_FENETRE_INITIAL);
 
-		this.setMinimumSize(new Dimension(700, 700));
+		this.setMinimumSize(new Dimension(400, 600));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
+		this.setResizable(false);
 	}
 
 	public static void changerPanelFrame(final JFrame frame, final JPanel jpan){

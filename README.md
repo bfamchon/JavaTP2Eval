@@ -13,7 +13,7 @@ Le script SQL utilisé pour la création de table est "crea_base.sql".
 Le script "personnels.sql" est un export de la base, et "requete.sql" l'endroit où l'on place nos requêtes pour tester la base.
 
 Diagrammes
----------
+----------
 Nos différents diagrammes se trouvent dans le dossier du même nom, ils ont été réalisés manuellement avec l'outil en ligne LUCIDCHART.COM.
 
 Lancement de notre application
@@ -22,4 +22,4 @@ Il suffit d'exécuter le main.
 
 IdentityHashMap
 ---------------
-Il aurait intéressant de mettre en place ce pattern avec les weak-references pour éviter de récupérer deux fois le même objet en base.
+Il aurait été intéressant de mettre en place ce pattern avec les weak-references pour éviter de récupérer deux fois le même objet en base.
